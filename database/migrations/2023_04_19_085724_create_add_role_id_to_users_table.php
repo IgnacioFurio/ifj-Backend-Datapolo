@@ -8,13 +8,13 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('role_id')
-                ->default(3)
-                ->after('email');
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedBigInteger('role_id')->default(3)->after('email');
             $table->foreign('role_id')
                 ->references('id')
                 ->on('roles')
@@ -25,9 +25,13 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('add_role_id_to_users');
+        Schema::table('users', function (Blueprint $table) {
+            
+        });
     }
 };
