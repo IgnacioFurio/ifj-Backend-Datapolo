@@ -13,4 +13,9 @@ class Team extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function matches()
+    {
+        return $this->hasMany(Game::class);
+    }
 }
