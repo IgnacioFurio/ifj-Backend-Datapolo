@@ -26,6 +26,10 @@ class DatabaseSeeder extends Seeder
         \App\Models\Game::factory(500)->create();
         \App\Models\Player::factory(150)->create();
         \App\Models\Goal::factory(1500)->create();
+        
+        $this->call([
+            TrophySeeder::class
+        ]);
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
