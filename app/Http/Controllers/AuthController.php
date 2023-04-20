@@ -18,7 +18,8 @@ class AuthController extends Controller
     {
         try {
             //code...
-            //ToDo Log
+            Log::info("CREATED USER");
+
             $request->validate([
                 'name' => 'required|string',
                 'email' => 'required|string|unique:users,email',
@@ -49,7 +50,7 @@ class AuthController extends Controller
 
         } catch (\Throwable $th) {
             //throw $th;
-            Log::info("CREATED USER ".$th->getMessage());
+            Log::info("CREATED USER ERROR ".$th->getMessage());
 
             return response()->json(
                 [
@@ -65,7 +66,8 @@ class AuthController extends Controller
     {
         try {
             //code...
-            //ToDo Log
+            Log::info("LOG IN");
+
             $request->validate([
                 'email' => 'required|string',   
                 'password' => 'required|string',
@@ -106,7 +108,7 @@ class AuthController extends Controller
 
         } catch (\Throwable $th) {
             //throw $th;
-            Log::info("LOGIN ".$th->getMessage());
+            Log::info("LOGIN ERROR ".$th->getMessage());
 
             return response()->json(
                 [
@@ -122,7 +124,7 @@ class AuthController extends Controller
     {
         try {
             //code...
-            //ToDo Log
+            Log::info("LOG OUT");
             $accessToken = $request->bearerToken();
 
             // Get access token from database
@@ -140,7 +142,7 @@ class AuthController extends Controller
             );
         } catch (\Throwable $th) {
             //throw $th;
-            Log::info("LOGOUT ".$th->getMessage());
+            Log::info("LOGOUT ERROR ".$th->getMessage());
 
             return response()->json(
                 [
