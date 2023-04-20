@@ -13,4 +13,10 @@ class Season extends Model
     {
         return $this->hasMany(Game::class);
     }
+
+    public function teams_trophies()
+    {
+        return $this->hasMany(Team_Trophy::class);
+    }
+
 }

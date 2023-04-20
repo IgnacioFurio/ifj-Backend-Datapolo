@@ -14,4 +14,14 @@ class Team_Trophy extends Model
         return $this->belongsTo(Team::class);
     }
 
+    public function seasons()
+    {
+        return $this->belongsTo(Season::class);
+    }
+
+    public function trophies()
+    {
+        return $this->belongsTo(Trophy::class);
+    }
+
 }
