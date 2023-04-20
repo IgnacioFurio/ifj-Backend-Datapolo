@@ -31,6 +31,8 @@ class DatabaseSeeder extends Seeder
             TrophySeeder::class
         ]);
 
+        \App\Models\Team_Trophy::factory(20)->create();
+
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',

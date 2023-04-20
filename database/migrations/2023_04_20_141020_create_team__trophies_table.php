@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('team_trophy', function (Blueprint $table) {
+        Schema::create('team__trophies', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('season_id');
