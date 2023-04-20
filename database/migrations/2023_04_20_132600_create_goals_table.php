@@ -37,7 +37,7 @@ return new class extends Migration
 
             $table->enum('zone',[1,2,3,4,5,6,7,8,9]);
 
-            $table->integer('player_nº');
+            $table->enum('player_nº', [1,2,3,4,5,6,7,8,9,10,11,12,13]);
 
             $table->timestamps();
         });
