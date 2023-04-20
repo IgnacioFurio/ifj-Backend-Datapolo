@@ -31,9 +31,13 @@ return new class extends Migration
             $table->unsignedBigInteger('player_id');
             $table->foreign('player_id')
                 ->references('id')
-                ->on('games')
+                ->on('players')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+
+            $table->enum('zone',[1,2,3,4,5,6,7,8,9]);
+
+            $table->integer('player_nº');
 
             $table->timestamps();
         });
