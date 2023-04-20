@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Game::factory(500)->create();
+        \App\Models\Goal::factory(1500)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
