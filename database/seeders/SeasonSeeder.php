@@ -16,15 +16,19 @@ class SeasonSeeder extends Seeder
         DB::table('seasons')->insert(
             [
                 [
+                    'id' => 1,
                     'season' => '2019-2020'
                 ], 
                 [
+                    'id' => 2,
                     'season' => '2020-2021'
                 ], 
                 [
+                    'id' => 3,
                     'season' => '2021-2022'
                 ], 
                 [
+                    'id' => 4,
                     'season' => '2022-2023'
                 ], 
             ]
