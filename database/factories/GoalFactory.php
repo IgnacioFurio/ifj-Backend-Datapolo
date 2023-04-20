@@ -17,9 +17,9 @@ class GoalFactory extends Factory
     public function definition(): array
     {
         return [
-            'team_id' => rand(1,10),
-            'game_id' => rand(1500),
-            'player_id' => rand(),
+            'team_id' => rand(1,50),
+            'game_id' => rand(1,500),
+            'player_id' => rand(1,150),
             'zone' => rand(1,9),
             'player_nº' => rand(1,13)
         ];
