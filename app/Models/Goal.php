@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Goal extends Model
 {
     use HasFactory;
+
+    public function players()
+    {
+        return $this->belongsTo(Player::class);
+    }
 }
