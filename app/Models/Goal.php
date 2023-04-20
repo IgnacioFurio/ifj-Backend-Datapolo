@@ -13,4 +13,9 @@ class Goal extends Model
     {
         return $this->belongsTo(Player::class);
     }
+
+    public function teams()
+    {
+        return $this->belongsTo(Team::class);
+    }
 }
