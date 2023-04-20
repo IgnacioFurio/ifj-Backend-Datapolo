@@ -11,33 +11,29 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('matches', function (Blueprint $table) {
+        Schema::create('goals', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('season_id');
-            $table->foreign('season_id')
-                ->references('id')
-                ->on('seasons')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            
-            $table->unsignedBigInteger('my_team_id');
-            $table->foreign('my_team_id')
+            $table->unsignedBigInteger('team_id');
+            $table->foreign('team_id')
                 ->references('id')
                 ->on('teams')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             
-            $table->unsignedBigInteger('my_rival_id');
-            $table->foreign('my_rival_id')
+            $table->unsignedBigInteger('game_id');
+            $table->foreign('game_id')
                 ->references('id')
-                ->on('teams')
+                ->on('games')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->boolean('locale');
-
-            $table->boolean('friendly');
+            $table->unsignedBigInteger('player_id');
+            $table->foreign('player_id')
+                ->references('id')
+                ->on('games')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -48,6 +44,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('matches');
+        Schema::dropIfExists('goals');
     }
 };
