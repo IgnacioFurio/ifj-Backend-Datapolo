@@ -18,4 +18,9 @@ class Game extends Model
     {
         return $this->belongsTo(Season::class);
     }
+
+    public function goals()
+    {
+        return $this->hasMany(Goal::class);
+    }
 }
