@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         $this->hasOne(Role::class);
     }
+
+    public function teams()
+    {
+        $this->hasMany(Team::class);
+    }
 }
