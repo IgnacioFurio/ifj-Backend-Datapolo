@@ -21,13 +21,13 @@ class AuthController extends Controller
             Log::info("CREATED USER");
 
             $request->validate([
-                'name' => 'required|string',
+                'username' => 'required|string',
                 'email' => 'required|string|unique:users,email',
                 'password' => 'required|string|min:6|max:12',
             ]);
 
             $user = User::create([
-                'name' => $request['name'],
+                'username' => $request['name'],
                 'email' => $request['email'],
                 'password' => bcrypt($request['password'])
             ]);
