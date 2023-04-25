@@ -31,4 +31,11 @@ Route::post('/user', [UserController::class, "getUserData"]);
 
 //TEAMS
 Route::get('/teams', [TeamController::class, "getAllTeams"]);
-Route::get('/my-teams', [TeamController::class, "getAllMyTeams"]);
+
+Route::group([
+        'middleware' => ['auth:sanctum']
+    ], function () {
+        Route::get('/my-teams', [TeamController::class, "getAllMyTeams"]);
+        Route::post('/my-teams', [TeamController::class, "createNewTeam"]);        
+    } 
+);

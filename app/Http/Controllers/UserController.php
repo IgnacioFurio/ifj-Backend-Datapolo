@@ -15,7 +15,7 @@ class UserController extends Controller
             // //code...
             Log::info("USER DATA CALL");
 
-            $user = DB::table('users')->where('email', '=', $request->email)->get();
+            $user = User::where('email', '=', $request->email)->get();
 
             return [
                 "succes" => true,
