@@ -37,5 +37,6 @@ Route::group([
     ], function () {
         Route::get('/my-teams', [TeamController::class, "getAllMyTeams"]);
         Route::post('/my-teams', [TeamController::class, "createNewTeam"]);        
+        Route::put('/my-teams', [TeamController::class, "modifyTeam"]);        
     } 
 );

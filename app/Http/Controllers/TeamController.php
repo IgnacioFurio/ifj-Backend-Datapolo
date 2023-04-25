@@ -107,4 +107,59 @@ class TeamController extends Controller
             );
         }
     }
+
+    public function modifyTeam (Request $request)
+    {
+        try {
+            //code...
+            Log::info("TEAM MODIFIED");
+
+            $validator = Validator::make($request->all(), [
+                'id' => 'required | regex:/[0-9]/',
+                'user_id' => 'required | regex:/[0-9]/',
+                'team_name' => 'required | regex:/[A-Za-z0-9]+$/',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 400);
+            };
+
+            $modTeam = Team::find($request->id);
+
+            if(!$modTeam){
+                return response()->json(
+                    [
+                        "success" => false,
+                        "message" => 'Pizza do not exist'
+                    ]
+                );
+            }
+
+            $modTeam->user_id = $request->input('user_id');
+            $modTeam->team_name = $request->input('team_name');
+
+            $modTeam->save();
+
+            return response()->json(
+                [
+                    "success" => true,
+                    "message" => "Team modified",
+                    "data" => $modTeam
+                ],
+                200
+            );
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            Log::info("MODIFY TEAM ERROR ".$th->getMessage());
+
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "Modify team error"
+                ],
+                500
+            );
+        }
+        }
 }
