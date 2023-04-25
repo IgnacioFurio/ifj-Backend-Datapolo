@@ -13,7 +13,7 @@ class UserController extends Controller
     {
         try {
             // //code...
-            // Log::info("USER DATA CALL");
+            Log::info("USER DATA CALL");
 
             $user = DB::table('users')->where('email', '=', $request->email)->get();
 
