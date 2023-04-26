@@ -35,8 +35,9 @@ Route::get('/teams', [TeamController::class, "getAllTeams"]);
 Route::group([
         'middleware' => ['auth:sanctum']
     ], function () {
-        Route::get('/my-teams', [TeamController::class, "getAllMyTeams"]);
+        Route::post('/get-my-teams', [TeamController::class, "getAllMyTeams"]);
         Route::post('/my-teams', [TeamController::class, "createNewTeam"]);        
         Route::put('/my-teams', [TeamController::class, "modifyTeam"]);        
+        Route::delete('/my-teams', [TeamController::class, "deleteTeam"]);        
     } 
 );

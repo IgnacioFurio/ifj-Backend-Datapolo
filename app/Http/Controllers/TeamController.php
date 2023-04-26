@@ -6,6 +6,7 @@ use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class TeamController extends Controller
 {
@@ -41,13 +42,18 @@ class TeamController extends Controller
         try {
             //code...
             Log::info("GET MY TEAMS");
+            $accessToken = $request->bearerToken();
+            $token = PersonalAccessToken::findToken($accessToken);
 
             $teams = Team::where('user_id', $request->user_id)->get();
 
-            return [
+            return response()->json(
+                [
                 "success" => true,
-                "data" => $teams
-            ];
+                "message" => 'Get my teams',
+                "data" => $teams,
+                ],200
+            );
 
         } catch (\Throwable $th) {
             //throw $th;
@@ -161,5 +167,46 @@ class TeamController extends Controller
                 500
             );
         }
+    }
+
+    public function deleteTeam (Request $request)
+    {
+        try {
+            //code...
+            Log::info("TEAM DELETED");
+
+            $deleteTeam = Team::find($request->id);
+
+            if(!$deleteTeam){
+                return response()->json(
+                    [
+                        "success" => false,
+                        "message" => 'Pizza do not exist'
+                    ]
+                );
+            };
+
+            Team::destroy($request->id);
+
+            return response()->json(
+                [
+                    "success" => true,
+                    "message" => "Team deleted",
+                ],
+                200
+            );
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            Log::info("DELETE TEAM ERROR ".$th->getMessage());
+
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "Delete team error"
+                ],
+                500
+            );
         }
+    }
 }
