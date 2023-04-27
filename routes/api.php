@@ -48,9 +48,9 @@ Route::get('/all-players', [PlayerController::class, "getAllPlayers"]);
 Route::group([
     'middleware' => ['auth:sanctum']
 ], function () {
-    Route::post('/get-my-players', [TeamController::class, "getAllMyPlayers"]);
-    Route::post('/my-players', [TeamController::class, "createNewPlayers"]);        
-    Route::put('/my-players', [TeamController::class, "modifyPlayer"]);        
-    Route::delete('/my-players', [TeamController::class, "deletePlayer"]);        
+    Route::post('/get-my-players', [PlayerController::class, "getAllMyPlayers"]);
+    Route::post('/my-players', [PlayerController::class, "createNewPlayers"]);        
+    Route::put('/my-players', [PlayerController::class, "modifyPlayer"]);        
+    Route::delete('/my-players', [PlayerController::class, "deletePlayer"]);        
 } 
 );

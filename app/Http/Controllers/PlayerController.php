@@ -44,13 +44,13 @@ class PlayerController extends Controller
             $accessToken = $request->bearerToken();
             $token = PersonalAccessToken::findToken($accessToken);
 
-            $teams = Player::where('user_id', $request->user_id)->get();
+            $players = Player::where('user_id', $request->user_id)->get();
 
             return response()->json(
                 [
                 "success" => true,
                 "message" => 'Get my teams',
-                "data" => $teams,
+                "data" => $players,
                 ],200
             );
 
