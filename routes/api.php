@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -40,4 +41,16 @@ Route::group([
         Route::put('/my-teams', [TeamController::class, "modifyTeam"]);        
         Route::delete('/my-teams', [TeamController::class, "deleteTeam"]);        
     } 
+);
+
+//PLAYERS   
+Route::get('/all-players', [PlayerController::class, "getAllPlayers"]);
+Route::group([
+    'middleware' => ['auth:sanctum']
+], function () {
+    Route::post('/get-my-players', [TeamController::class, "getAllMyPlayers"]);
+    Route::post('/my-players', [TeamController::class, "createNewPlayer"]);        
+    Route::put('/my-players', [TeamController::class, "modifyPlayer"]);        
+    Route::delete('/my-players', [TeamController::class, "deletePlayer"]);        
+} 
 );

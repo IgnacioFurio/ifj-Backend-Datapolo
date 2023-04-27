@@ -118,7 +118,7 @@ class TeamController extends Controller
     {
         try {
             //code...
-            Log::info("TEAM MODIFIED");
+            Log::info("TEAM NAME MODIFIED");
 
             $validator = Validator::make($request->all(), [
                 'id' => 'required | regex:/[0-9]/',
@@ -136,7 +136,7 @@ class TeamController extends Controller
                 return response()->json(
                     [
                         "success" => false,
-                        "message" => 'Pizza do not exist'
+                        "message" => 'Team do not exist'
                     ]
                 );
             }
@@ -149,7 +149,7 @@ class TeamController extends Controller
             return response()->json(
                 [
                     "success" => true,
-                    "message" => "Team modified",
+                    "message" => "Team name modified",
                     "data" => $modTeam
                 ],
                 200
