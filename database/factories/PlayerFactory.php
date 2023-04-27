@@ -18,6 +18,7 @@ class PlayerFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'user_id' => rand(1, 10)
         ];
     }
 }

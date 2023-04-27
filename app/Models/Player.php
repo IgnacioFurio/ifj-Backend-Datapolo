@@ -9,6 +9,11 @@ class Player extends Model
 {
     use HasFactory;
 
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function goals()
     {
         return $this->hasMany(Goal::class);
