@@ -49,7 +49,7 @@ Route::group([
     'middleware' => ['auth:sanctum']
 ], function () {
     Route::post('/get-my-players', [PlayerController::class, "getAllMyPlayers"]);
-    Route::post('/my-players', [PlayerController::class, "createNewPlayers"]);        
+    Route::post('/my-players', [PlayerController::class, "createNewPlayer"]);        
     Route::put('/my-players', [PlayerController::class, "modifyPlayer"]);        
     Route::delete('/my-players', [PlayerController::class, "deletePlayer"]);        
 } 
