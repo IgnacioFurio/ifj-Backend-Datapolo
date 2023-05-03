@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\SeasonController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -56,3 +57,11 @@ Route::group([
 );
 
 //SEASONS
+Route::group([
+    'middleware' => ['auth:sanctum', 'IsAdmin']
+], function() {
+    Route::get('/seasons', [SeasonController::class, "getAllSeasons"]);
+    Route::post('/seasons', [SeasonController::class, "createNewSeason"]);
+    Route::put('/seasons', [SeasonController::class, "modifySeason"]);
+    Route::delete('/seasons', [SeasonController::class, "deleteSeason"]);
+});

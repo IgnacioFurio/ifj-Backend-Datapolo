@@ -20,6 +20,7 @@ class TeamController extends Controller
 
             return [
                 "success" => true,
+                "message" => "Get all seasons",
                 "data" => $teams
             ];
 
