@@ -44,7 +44,7 @@ Route::group([
 );
 
 //PLAYERS   
-Route::get('/all-players', [PlayerController::class, "getAllPlayers"]);
+Route::get('/all-players', [PlayerController::class, "getAllPlayers"])->middleware('auth:sanctum', 'IsAdmin');
 Route::group([
     'middleware' => ['auth:sanctum']
 ], function () {
@@ -54,3 +54,5 @@ Route::group([
     Route::delete('/my-players', [PlayerController::class, "deletePlayer"]);        
 } 
 );
+
+//SEASONS
