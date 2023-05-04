@@ -51,6 +51,7 @@ Route::get('/all-players', [PlayerController::class, "getAllPlayers"])->middlewa
 Route::group([
     'middleware' => ['auth:sanctum']
 ], function () {
+    Route::post('/my-players-by-id', [PlayerController::class, "getMyPlayersById"]);
     Route::post('/get-my-players', [PlayerController::class, "getAllMyPlayers"]);
     Route::post('/my-players', [PlayerController::class, "createNewPlayer"]);        
     Route::put('/my-players', [PlayerController::class, "modifyPlayer"]);        
@@ -59,10 +60,11 @@ Route::group([
 );
 
 //SEASONS
+Route::get('/seasons', [SeasonController::class, "getAllSeasons"])->middleware('auth:sanctum');
+Route::post('/seasons-by-id', [SeasonController::class, "getSeasonsById"])->middleware('auth:sanctum');
 Route::group([
     'middleware' => ['auth:sanctum', 'IsAdmin']
 ], function() {
-    Route::get('/seasons', [SeasonController::class, "getAllSeasons"]);
     Route::post('/seasons', [SeasonController::class, "createNewSeason"]);
     Route::put('/seasons', [SeasonController::class, "modifySeason"]);
     Route::delete('/seasons', [SeasonController::class, "deleteSeason"]);

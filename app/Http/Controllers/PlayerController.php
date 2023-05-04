@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Player;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -46,6 +47,50 @@ class PlayerController extends Controller
             $token = PersonalAccessToken::findToken($accessToken);
 
             $players = Player::where('user_id', $request->user_id)->get();
+
+            return response()->json(
+                [
+                "success" => true,
+                "message" => 'Get my players',
+                "data" => $players,
+                ],200
+            );
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            Log::info("GET MY PLAYER ERROR ".$th->getMessage());
+
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "Get my players error"
+                ],
+                500
+            );
+        }
+    }
+    
+    public function getMyPlayersById (Request $request)
+    {
+        try {
+            //code...
+            Log::info("GET MY PLAYERS");
+            $accessToken = $request->bearerToken();
+            $token = PersonalAccessToken::findToken($accessToken);
+
+            $players = Player::where('user_id', Auth::user()->id)->where('id', $request->id)->get();
+
+                if(count($players) === 0){
+
+                    return response()->json(
+                        [
+                            "success" => false,
+                            "message" => "Not players found"
+                        ],
+                        404
+                    );
+
+                }
 
             return response()->json(
                 [

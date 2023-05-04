@@ -6,14 +6,18 @@ use App\Models\Season;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class SeasonController extends Controller
 {
-    public function getAllSeasons ()
+    public function getAllSeasons (Request $request)
     {
         try {
             //code...
             Log::info("GET SEASONS");
+
+            $accessToken = $request->bearerToken();
+            $token = PersonalAccessToken::findToken($accessToken);
 
             $seasons = Season::all();
 
@@ -37,11 +41,44 @@ class SeasonController extends Controller
         }
     }
 
+    public function getSeasonsById (Request $request)
+    {
+        try {
+            //code...
+            Log::info("GET SEASONS  BY ID");
+
+            $accessToken = $request->bearerToken();
+            $token = PersonalAccessToken::findToken($accessToken);
+
+            $seasons = Season::where('id', $request->id)->get();
+
+            return [
+                "success" => true,
+                "message" => "Get seasons by id",
+                "data" => $seasons
+            ];
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            Log::info("GET SEASONS BY ID ERROR ".$th->getMessage());
+
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "Get seasons by id error"
+                ],
+                500
+            );
+        }
+    }
+
     public function createNewSeason (Request $request)
     {
         try {
             //code...
             Log::info("SEASON CREATED");
+            $accessToken = $request->bearerToken();
+            $token = PersonalAccessToken::findToken($accessToken);
 
             // ToDo validation for years 
             $validator = Validator::make($request->all(), [
@@ -86,6 +123,9 @@ class SeasonController extends Controller
         try {
             //code...
             Log::info("SASON NAME MODIFIED");
+
+            $accessToken = $request->bearerToken();
+            $token = PersonalAccessToken::findToken($accessToken);
 
             $validator = Validator::make($request->all(), [
                 'id' => 'required | regex:/[0-9]/',
@@ -140,6 +180,9 @@ class SeasonController extends Controller
         try {
             //code...
             Log::info("SEASON DELETED");
+
+            $accessToken = $request->bearerToken();
+            $token = PersonalAccessToken::findToken($accessToken);
 
             $deleteSeason = Season::find($request->id);
 
