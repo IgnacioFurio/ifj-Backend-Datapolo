@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -64,6 +65,50 @@ class TeamController extends Controller
                 [
                     "success" => false,
                     "message" => "Get my teams error"
+                ],
+                500
+            );
+        }
+    }
+
+    public function getMyTeamsById (Request $request)
+    {
+        try {
+            //code...
+            Log::info("GET MY TEAMS BY ID");
+            $accessToken = $request->bearerToken();
+            $token = PersonalAccessToken::findToken($accessToken);
+
+            $teams = Team::where('user_id', Auth::user()->id)->where('id', $request->id)->get();
+
+                if(count($teams) === 0){
+
+                    return response()->json(
+                        [
+                            "success" => false,
+                            "message" => "Not teams found"
+                        ],
+                        404
+                    );
+
+                }
+
+            return response()->json(
+                [
+                "success" => true,
+                "message" => 'Get my teams by id',
+                "data" => $teams,
+                ],200
+            );
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            Log::info("GET MY TEAMS  BY ID ERROR ".$th->getMessage());
+
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "Get my teams by id error"
                 ],
                 500
             );

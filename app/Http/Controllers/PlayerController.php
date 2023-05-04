@@ -74,7 +74,7 @@ class PlayerController extends Controller
     {
         try {
             //code...
-            Log::info("GET MY PLAYERS");
+            Log::info("GET MY PLAYERS BY ID");
             $accessToken = $request->bearerToken();
             $token = PersonalAccessToken::findToken($accessToken);
 
@@ -95,19 +95,19 @@ class PlayerController extends Controller
             return response()->json(
                 [
                 "success" => true,
-                "message" => 'Get my players',
+                "message" => 'Get my players by id',
                 "data" => $players,
                 ],200
             );
 
         } catch (\Throwable $th) {
             //throw $th;
-            Log::info("GET MY PLAYER ERROR ".$th->getMessage());
+            Log::info("GET MY PLAYER  BY ID ERROR ".$th->getMessage());
 
             return response()->json(
                 [
                     "success" => false,
-                    "message" => "Get my players error"
+                    "message" => "Get my players by id error"
                 ],
                 500
             );
