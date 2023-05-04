@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GamesController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\SeasonController;
 use App\Http\Controllers\TeamController;
@@ -32,7 +33,7 @@ Route::post('/logout',[AuthController::class, "logout"])->middleware('auth:sanct
 Route::post('/user', [UserController::class, "getUserData"]);
 
 //TEAMS
-Route::get('/teams', [TeamController::class, "getAllTeams"]);
+Route::get('/teams', [TeamController::class, "getAllTeams"])->middleware('auth:sanctum', 'IsAdmin');
 
 Route::group([
         'middleware' => ['auth:sanctum']
@@ -46,6 +47,7 @@ Route::group([
 
 //PLAYERS   
 Route::get('/all-players', [PlayerController::class, "getAllPlayers"])->middleware('auth:sanctum', 'IsAdmin');
+
 Route::group([
     'middleware' => ['auth:sanctum']
 ], function () {
@@ -65,3 +67,17 @@ Route::group([
     Route::put('/seasons', [SeasonController::class, "modifySeason"]);
     Route::delete('/seasons', [SeasonController::class, "deleteSeason"]);
 });
+
+//GAMES
+Route::get('/all-games', [GamesController::class, "getAllGames"])->middleware('auth:sanctum', 'IsAdmin');
+
+Route::group([
+    'middleware' => ['auth:sanctum']
+], function () {
+    Route::get('/my-games', [GamesController::class, "getAllMyGames"]);
+    Route::post('/my-games-by-team-id', [GamesController::class, "getAllMyGamesByTeamId"]);
+    Route::post('/my-games', [GamesController::class, "createNewGame"]);        
+    Route::put('/my-games', [PlayerController::class, "modifyPlayer"]);        
+    Route::delete('/my-games', [PlayerController::class, "deletePlayer"]);        
+} 
+);

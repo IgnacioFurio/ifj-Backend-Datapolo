@@ -61,7 +61,7 @@ class SeasonController extends Controller
             return response()->json(
                 [
                     "success" => true,
-                    "message" => "season created",
+                    "message" => "Season created",
                     "data" => $newSeason
                 ],
                 200
