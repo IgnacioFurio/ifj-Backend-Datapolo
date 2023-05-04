@@ -158,7 +158,7 @@ class GamesController extends Controller
                 return response()->json($validator->errors(), 400);
             }
 
-            $newGame = new GAme();
+            $newGame = new Game();
 
             $newGame->season_id = $request->input('season_id');
             $newGame->my_team_id = $request->input('my_team_id');
@@ -185,6 +185,86 @@ class GamesController extends Controller
                 [
                     "success" => false,
                     "message" => "Creating game error"
+                ],
+                500
+            );
+        }
+    }
+
+    public function modifyGame (Request $request)
+    {
+        try {
+            //code...
+            Log::info("GAME MODIFIED");
+
+            $validator = Validator::make($request->all(), [
+                'id' => 'required | regex:/[0-9]/',
+                'season_id' => 'required | regex:/[0-9]/',
+                'my_team_id' => 'required | regex:/[0-9]/',
+                'my_rival_id' => 'required | regex:/[0-9]/',
+                'locale' => 'required | boolean',
+                'friendly' => 'required | boolean'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 400);
+            };
+
+            $teams = Team::where('user_id', Auth::user()->id)->get();
+
+            $modGame = Game::find($request->id);
+
+            for ($i=0; $i < count($teams); $i++) { 
+                
+                $check = false;
+
+                if( $teams[$i]->id === $modGame->my_team_id ){
+
+                    $check = true;
+
+                    $i = count($teams);
+                }
+            }    
+            
+            if($check !== true){
+
+                return response()->json(
+                    [
+                        "success" => false,
+                        "message" => "Game not found",
+                    ],
+                    404
+                );
+            } elseif ($check === true){
+
+                $modGame->id = $request->input('id');
+                $modGame->season_id = $request->input('season_id');
+                $modGame->my_team_id = $request->input('my_team_id');
+                $modGame->my_rival_id = $request->input('my_rival_id');
+                $modGame->locale = $request->input('locale');
+                $modGame->friendly = $request->input('friendly');
+    
+                $modGame->save();
+            }
+
+
+            return response()->json(
+                [
+                    "success" => true,
+                    "message" => "Game modified",
+                    "data" => $modGame
+                ],
+                200
+            );
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            Log::info("MODIFY GAME ERROR ".$th->getMessage());
+
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "Modify game error"
                 ],
                 500
             );

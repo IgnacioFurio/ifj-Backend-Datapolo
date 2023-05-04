@@ -77,7 +77,7 @@ Route::group([
     Route::get('/my-games', [GamesController::class, "getAllMyGames"]);
     Route::post('/my-games-by-team-id', [GamesController::class, "getAllMyGamesByTeamId"]);
     Route::post('/my-games', [GamesController::class, "createNewGame"]);        
-    Route::put('/my-games', [PlayerController::class, "modifyPlayer"]);        
+    Route::put('/my-games', [GamesController::class, "modifyGame"]);        
     Route::delete('/my-games', [PlayerController::class, "deletePlayer"]);        
 } 
 );
