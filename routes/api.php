@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\GamesController;
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\SeasonController;
 use App\Http\Controllers\TeamController;
@@ -74,10 +74,10 @@ Route::get('/all-games', [GamesController::class, "getAllGames"])->middleware('a
 Route::group([
     'middleware' => ['auth:sanctum']
 ], function () {
-    Route::get('/my-games', [GamesController::class, "getAllMyGames"]);
-    Route::post('/my-games-by-team-id', [GamesController::class, "getAllMyGamesByTeamId"]);
-    Route::post('/my-games', [GamesController::class, "createNewGame"]);        
-    Route::put('/my-games', [GamesController::class, "modifyGame"]);        
-    Route::delete('/my-games', [PlayerController::class, "deletePlayer"]);        
+    Route::get('/my-games', [GameController::class, "getAllMyGames"]);
+    Route::post('/my-games-by-team-id', [GameController::class, "getAllMyGamesByTeamId"]);
+    Route::post('/my-games', [GameController::class, "createNewGame"]);        
+    Route::put('/my-games', [GameController::class, "modifyGame"]);        
+    Route::delete('/my-games', [GameController::class, "deleteGame"]);        
 } 
 );

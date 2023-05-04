@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 
-class GamesController extends Controller
+class GameController extends Controller
 {
     public function getAllGames ()
     {
@@ -265,6 +265,70 @@ class GamesController extends Controller
                 [
                     "success" => false,
                     "message" => "Modify game error"
+                ],
+                500
+            );
+        }
+    }
+    
+    public function deleteGame (Request $request)
+    {
+        try {
+            //code...
+            Log::info("GAME DESTROYED");
+
+            $validator = Validator::make($request->all(), [
+                'id' => 'required | regex:/[0-9]/',
+            ]);
+
+            $teams = Team::where('user_id', Auth::user()->id)->get();
+
+            $destroyGame = Game::find($request->id);
+
+            for ($i=0; $i < count($teams); $i++) { 
+                
+                $check = false;
+
+                if( $teams[$i]->id === $destroyGame->my_team_id ){
+
+                    $check = true;
+
+                    $i = count($teams);
+                }
+            }    
+            
+            if($check !== true){
+
+                return response()->json(
+                    [
+                        "success" => false,
+                        "message" => "Game not found",
+                    ],
+                    404
+                );
+            } elseif ($check === true){    
+                
+                Game::destroy($request->id);
+            }
+
+
+            return response()->json(
+                [
+                    "success" => true,
+                    "message" => "Game destroyed",
+                    "data" => $destroyGame
+                ],
+                200
+            );
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            Log::info("DESTROY GAME ERROR ".$th->getMessage());
+
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "destroy game error"
                 ],
                 500
             );
