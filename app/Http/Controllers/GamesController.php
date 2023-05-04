@@ -147,26 +147,32 @@ class GamesController extends Controller
             Log::info("GAME CREATED");
 
             $validator = Validator::make($request->all(), [
-                'user_id' => 'required | regex:/[0-9]/',
-                'name' => 'required | regex:/[A-Za-z]+$/',
+                'season_id' => 'required | regex:/[0-9]/',
+                'my_team_id' => 'required | regex:/[0-9]/',
+                'my_rival_id' => 'required | regex:/[0-9]/',
+                'locale' => 'required | boolean',
+                'friendly' => 'required | boolean'
             ]);
 
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 400);
             }
 
-            $newPlayer = new GAme();
+            $newGame = new GAme();
 
-            $newPlayer->user_id = $request->input('user_id');
-            $newPlayer->name = $request->input('name');
+            $newGame->season_id = $request->input('season_id');
+            $newGame->my_team_id = $request->input('my_team_id');
+            $newGame->my_rival_id = $request->input('my_rival_id');
+            $newGame->locale = $request->input('locale');
+            $newGame->friendly = $request->input('friendly');
 
-            $newPlayer->save();
+            $newGame->save();
 
             return response()->json(
                 [
                     "success" => true,
                     "message" => "Game created",
-                    "data" => $newPlayer
+                    "data" => $newGame
                 ],
                 200
             );
