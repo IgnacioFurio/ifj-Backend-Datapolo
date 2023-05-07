@@ -3,54 +3,54 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Models\Goal;
+use App\Models\Player;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
-use RecursiveArrayIterator;
-use RecursiveIteratorIterator;
 
-class GameController extends Controller
+class GoalController extends Controller
 {
-    public function getAllGames (Request $request)
+    public function getAllGoals (Request $request)
     {
         try {
             //code...
-            Log::info("GET GAMES");
+            Log::info("GET ALL GOAL");
 
             $accessToken = $request->bearerToken();
             $token = PersonalAccessToken::findToken($accessToken);
 
-            $games = Game::all();
+            $goals = Goal::all();
 
             return [
                 "success" => true,
-                "message" => "Get all games",
-                "data" => $games
+                "message" => "Get all goals",
+                "data" => $goals
             ];
 
         } catch (\Throwable $th) {
             //throw $th;
-            Log::info("GET GAMES ERROR ".$th->getMessage());
+            Log::info("GET GOALS ERROR ".$th->getMessage());
 
             return response()->json(
                 [
                     "success" => false,
-                    "message" => "Get games error"
+                    "message" => "Get goals error"
                 ],
                 500
             );
         }
     }
 
-    public function getAllMyGames (Request $request)
+    public function getAllMyGoals (Request $request)
     {
         try {
             //code...
-            Log::info("GET MY GAMES");
+            Log::info("GET MY GOALS");
+
             $accessToken = $request->bearerToken();
             $token = PersonalAccessToken::findToken($accessToken);
 
@@ -59,7 +59,7 @@ class GameController extends Controller
             
             for ($i = 0 ; $i < count($teams)  ; $i++) { 
                 
-                $array[] = Game::where('my_team_id', $teams[$i]->id)->orderBy('season_id', 'asc')->get();
+                $array[] = Goal::where('team_id', $teams[$i]->id)->orderBy('game_id', 'asc')->get();
 
                 if( count($array[$i]) === 0 ){
 
@@ -74,7 +74,7 @@ class GameController extends Controller
                 return response()->json(
                     [
                     "success" => false,
-                    "message" => 'Not Games found',
+                    "message" => 'Not goals found',
                     ],404
                 );
 
@@ -83,30 +83,31 @@ class GameController extends Controller
             return response()->json(
                 [
                 "success" => true,
-                "message" => 'Get my games',
+                "message" => 'Get my goals',
                 "data" => $array
                 ],200
             );
 
         } catch (\Throwable $th) {
             //throw $th;
-            Log::info("GET MY GAMES ERROR ".$th->getMessage());
+            Log::info("GET MY GOALS ERROR ".$th->getMessage());
 
             return response()->json(
                 [
                     "success" => false,
-                    "message" => "Get my games error"
+                    "message" => "Get my goals error"
                 ],
                 500
             );
         }
     }
 
-    public function getAllMyGamesByTeamId (Request $request)
+    public function getAllMyGoalsByTeamId (Request $request)
     {
         try {
             //code...
-            Log::info("GET MY GAMES BY TEAM ID");
+            Log::info("GET MY GOALS BY TEAM ID");
+
             $accessToken = $request->bearerToken();
             $token = PersonalAccessToken::findToken($accessToken);
 
@@ -115,16 +116,16 @@ class GameController extends Controller
             
             for ($i = 0 ; $i < count($teams)  ; $i++) { 
                                 
-                if($teams[$i]->id === $request->my_team_id){
+                if($teams[$i]->id === $request->team_id){
 
-                    $games = Game::where('my_team_id', $request->my_team_id)->orwhere('my_rival_id', '=', $request->my_team_id)->get();
+                    $goals = Goal::where('team_id', $request->team_id)->get();
 
-                    if(count($games) === 0){
+                    if(count($goals) === 0){
 
                         return response()->json(
                             [
                             "success" => false,
-                            "message" => 'Not games asociated with this team yet',
+                            "message" => 'Not goals asociated with this team yet',
                             ],200
                         );
                     }
@@ -134,77 +135,77 @@ class GameController extends Controller
             return response()->json(
                 [
                 "success" => true,
-                "message" => 'Get my games by team id',
-                "data" => $games
+                "message" => 'Get my goals by team id',
+                "data" => $goals
                 ],200
             );
 
         } catch (\Throwable $th) {
             //throw $th;
-            Log::info("GET MY GAMES BY TEAM ID ERROR ".$th->getMessage());
+            Log::info("GET MY GOALS BY TEAM ID ERROR ".$th->getMessage());
 
             return response()->json(
                 [
                     "success" => false,
-                    "message" => "Get my games by team id error"
+                    "message" => "Get my goals by team id error"
                 ],
                 500
             );
         }
     }
 
-    public function createNewGame (Request $request)
+    public function createNewGoal (Request $request)
     {
         try {
             //code...
-            Log::info("GAME CREATED");
+            Log::info("GOAL CREATE");
 
             $validator = Validator::make($request->all(), [
-                'season_id' => 'required | regex:/[0-9]/',
-                'my_team_id' => 'required | regex:/[0-9]/',
-                'my_rival_id' => 'required | regex:/[0-9]/',
-                'locale' => 'required | boolean',
-                'friendly' => 'required | boolean'
+                'team_id' => 'required | regex:/[0-9]/',
+                'game_id' => 'required | regex:/[0-9]/',
+                'player_id' => 'required | regex:/[0-9]/',
+                'zone' => 'required | regex:/[0-9]/',
+                'player_nº' => 'required | regex:/[0-9]/'
             ]);
 
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 400);
             }
 
-            $newGame = new Game();
+            $newGoal = new Goal();
 
-            $newGame->season_id = $request->input('season_id');
-            $newGame->my_team_id = $request->input('my_team_id');
-            $newGame->my_rival_id = $request->input('my_rival_id');
-            $newGame->locale = $request->input('locale');
-            $newGame->friendly = $request->input('friendly');
+            $newGoal->team_id = $request->input('team_id');
+            $newGoal->game_id = $request->input('game_id');
+            $newGoal->player_id = $request->input('player_id');
+            $newGoal->zone = $request->input('zone');
+            $newGoal->player_nº = $request->input('player_nº');
 
-            $newGame->save();
+            $newGoal->save();
 
             return response()->json(
                 [
                     "success" => true,
-                    "message" => "Game created",
-                    "data" => $newGame
+                    "message" => "goal created",
+                    "data" => $newGoal
                 ],
                 200
             );
 
         } catch (\Throwable $th) {
             //throw $th;
-            Log::info("CREATING GAME ERROR ".$th->getMessage());
+            Log::info("CREATING GOAL ERROR ".$th->getMessage());
 
             return response()->json(
                 [
                     "success" => false,
-                    "message" => "Creating game error"
+                    "message" => "Creating goal error"
                 ],
                 500
             );
         }
     }
 
-    public function modifyGame (Request $request)
+    public function modifyGoal (Request $request)
     {
         try {
             //code...
@@ -212,11 +213,11 @@ class GameController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'id' => 'required | regex:/[0-9]/',
-                'season_id' => 'required | regex:/[0-9]/',
-                'my_team_id' => 'required | regex:/[0-9]/',
-                'my_rival_id' => 'required | regex:/[0-9]/',
-                'locale' => 'required | boolean',
-                'friendly' => 'required | boolean'
+                'team_id' => 'required | regex:/[0-9]/',
+                'game_id' => 'required | regex:/[0-9]/',
+                'player_id' => 'required | regex:/[0-9]/',
+                'zone' => 'required | regex:/[0-9]/',
+                'player_nº' => 'required | regex:/[0-9]/'
             ]);
 
             if ($validator->fails()) {
@@ -225,13 +226,20 @@ class GameController extends Controller
 
             $teams = Team::where('user_id', Auth::user()->id)->get();
 
-            $modGame = Game::find($request->id);
+            $modGoal = Goal::find($request->id);
 
-            for ($i=0; $i < count($teams); $i++) { 
+            $check = false;
+
+            $modGoal->id = $request->input('id');
+            $modGoal->team_id = $request->input('team_id');
+            $modGoal->game_id = $request->input('game_id');
+            $modGoal->player_id = $request->input('player_id');
+            $modGoal->zone = $request->input('zone');
+            $modGoal->player_nº = $request->input('player_nº');
+
+            for ($i=0 ; $i < count($teams) ; $i++) { 
                 
-                $check = false;
-
-                if( $teams[$i]->id === $modGame->my_team_id ){
+                if( $modGoal->team_id === $teams[$i]->id ){
 
                     $check = true;
 
@@ -239,7 +247,7 @@ class GameController extends Controller
                 }
             }    
             
-            if($check !== true){
+            if($check === false){
 
                 return response()->json(
                     [
@@ -248,16 +256,11 @@ class GameController extends Controller
                     ],
                     404
                 );
-            } elseif ($check === true){
 
-                $modGame->id = $request->input('id');
-                $modGame->season_id = $request->input('season_id');
-                $modGame->my_team_id = $request->input('my_team_id');
-                $modGame->my_rival_id = $request->input('my_rival_id');
-                $modGame->locale = $request->input('locale');
-                $modGame->friendly = $request->input('friendly');
+            }
+            else if ($check === true){
     
-                $modGame->save();
+                $modGoal->save();
             }
 
 
@@ -265,7 +268,7 @@ class GameController extends Controller
                 [
                     "success" => true,
                     "message" => "Game modified",
-                    "data" => $modGame
+                    "data" => $modGoal
                 ],
                 200
             );
@@ -284,11 +287,11 @@ class GameController extends Controller
         }
     }
     
-    public function deleteGame (Request $request)
+    public function deleteGoal (Request $request)
     {
         try {
             //code...
-            Log::info("GAME DESTROYED");
+            Log::info("GOAL DESTROY");
 
             $validator = Validator::make($request->all(), [
                 'id' => 'required | regex:/[0-9]/',
@@ -296,13 +299,13 @@ class GameController extends Controller
 
             $teams = Team::where('user_id', Auth::user()->id)->get();
 
-            $destroyGame = Game::find($request->id);
+            $destroyGoal = Goal::find($request->id);
 
-            for ($i=0; $i < count($teams); $i++) { 
-                
-                $check = false;
+            $check = false;
 
-                if( $teams[$i]->id === $destroyGame->my_team_id ){
+            for ($i=0 ; $i < count($teams) ; $i++) { 
+                            
+                if( $destroyGoal->team_id === $teams[$i]->id  ){
 
                     $check = true;
 
@@ -310,38 +313,38 @@ class GameController extends Controller
                 }
             }    
             
-            if($check !== true){
+            if($check === false){
 
                 return response()->json(
                     [
                         "success" => false,
-                        "message" => "Game not found",
+                        "message" => "Goal not found",
                     ],
                     404
                 );
             } elseif ($check === true){    
                 
-                Game::destroy($request->id);
+                Goal::destroy($request->id);
             }
 
 
             return response()->json(
                 [
                     "success" => true,
-                    "message" => "Game destroyed",
-                    "data" => $destroyGame
+                    "message" => "goal destroyed",
+                    "data" => $destroyGoal
                 ],
                 200
             );
 
         } catch (\Throwable $th) {
             //throw $th;
-            Log::info("DESTROY GAME ERROR ".$th->getMessage());
+            Log::info("DESTROY GOAL ERROR ".$th->getMessage());
 
             return response()->json(
                 [
                     "success" => false,
-                    "message" => "destroy game error"
+                    "message" => "Destroy goal error"
                 ],
                 500
             );
