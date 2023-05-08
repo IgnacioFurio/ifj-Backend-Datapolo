@@ -171,16 +171,6 @@ class GoalController extends Controller
                 if($teams[$i]->id === $request->team_id){
 
                     $goals = Goal::where('team_id', $request->team_id)->where('game_id', $request->game_id)->get();
-
-                    if(count($goals) === 0){
-
-                        return response()->json(
-                            [
-                            "success" => false,
-                            "message" => 'Not goals asociated with this team yet',
-                            ],200
-                        );
-                    }
                 }
             }
 
