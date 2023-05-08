@@ -94,6 +94,7 @@ Route::group([
 ], function () {
     Route::get('/my-goals', [GoalController::class, "getAllMyGoals"]);
     Route::post('/my-goals-by-team-id', [GoalController::class, "getAllMyGoalsByTeamId"]);
+    Route::post('/my-goals-by-team-id-game-id', [GoalController::class, "getAllMyGoalsByTeamIdAndGameId"]);
     Route::post('/my-goals', [GoalController::class, "createNewGoal"]);        
     Route::put('/my-goals', [GoalController::class, "modifyGoal"]);        
     Route::delete('/my-goals', [GoalController::class, "deleteGoal"]);    

@@ -154,6 +154,58 @@ class GoalController extends Controller
         }
     }
 
+    public function getAllMyGoalsByTeamIdAndGameId (Request $request)
+    {
+        try {
+            //code...
+            Log::info("GET MY GOALS BY TEAM ID");
+
+            $accessToken = $request->bearerToken();
+            $token = PersonalAccessToken::findToken($accessToken);
+
+            $teams = Team::where('user_id', Auth::user()->id)->get();
+
+            
+            for ($i = 0 ; $i < count($teams)  ; $i++) { 
+                                
+                if($teams[$i]->id === $request->team_id){
+
+                    $goals = Goal::where('team_id', $request->team_id)->where('game_id', $request->game_id)->get();
+
+                    if(count($goals) === 0){
+
+                        return response()->json(
+                            [
+                            "success" => false,
+                            "message" => 'Not goals asociated with this team yet',
+                            ],200
+                        );
+                    }
+                }
+            }
+
+            return response()->json(
+                [
+                "success" => true,
+                "message" => 'Get my goals by team id',
+                "data" => $goals
+                ],200
+            );
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            Log::info("GET MY GOALS BY TEAM ID ERROR ".$th->getMessage());
+
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "Get my goals by team id error"
+                ],
+                500
+            );
+        }
+    }
+
     public function createNewGoal (Request $request)
     {
         try {
