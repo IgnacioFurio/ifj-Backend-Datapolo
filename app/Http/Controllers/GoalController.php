@@ -227,7 +227,7 @@ class GoalController extends Controller
             return response()->json(
                 [
                     "success" => true,
-                    "message" => "goal created",
+                    "message" => "Goal created",
                     "data" => $newGoal
                 ],
                 200
@@ -251,7 +251,7 @@ class GoalController extends Controller
     {
         try {
             //code...
-            Log::info("GAME MODIFIED");
+            Log::info("GOAL MODIFIED");
 
             $validator = Validator::make($request->all(), [
                 'id' => 'required | regex:/[0-9]/',
@@ -294,7 +294,7 @@ class GoalController extends Controller
                 return response()->json(
                     [
                         "success" => false,
-                        "message" => "Game not found",
+                        "message" => "Goal not found",
                     ],
                     404
                 );
@@ -309,7 +309,7 @@ class GoalController extends Controller
             return response()->json(
                 [
                     "success" => true,
-                    "message" => "Game modified",
+                    "message" => "Goal modified",
                     "data" => $modGoal
                 ],
                 200
@@ -322,7 +322,7 @@ class GoalController extends Controller
             return response()->json(
                 [
                     "success" => false,
-                    "message" => "Modify game error"
+                    "message" => "Modify goal error"
                 ],
                 500
             );
@@ -373,7 +373,7 @@ class GoalController extends Controller
             return response()->json(
                 [
                     "success" => true,
-                    "message" => "goal destroyed",
+                    "message" => "Goal destroyed",
                     "data" => $destroyGoal
                 ],
                 200
