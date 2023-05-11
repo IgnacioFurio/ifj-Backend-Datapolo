@@ -37,7 +37,17 @@ class StadisticsController extends Controller
             $teamId = $request->integer('team_id');            
             $rivalId = $request->integer('rival_id');
             $seasonId = $request->integer('season_id');
+
             $locale = $request->string('locale');
+            $localeCheck = true;
+
+            if ($locale == "locale") {
+                $localeCheck = true;
+            } else if ($locale == "visitor") {
+                $localeCheck = false;
+            } else if ($locale == "") {
+                $locale = null;
+            }
 
             $game = DB::table('games')
                 ->where('my_team_id', $teamId)
@@ -47,9 +57,9 @@ class StadisticsController extends Controller
                 ->when($seasonId, function ($game) use ($seasonId) {
                     $game->where('season_id', $seasonId);
                 })
-                ->when($locale, function ( $game) use ($locale) {
-                    $game->where('locale', $locale);
-                })
+                ->when($locale, function ( $game) use ($localeCheck) {
+                    $game->where('locale', $localeCheck);
+                })                
                 ->get();
 
             if(count($game) === 0){
