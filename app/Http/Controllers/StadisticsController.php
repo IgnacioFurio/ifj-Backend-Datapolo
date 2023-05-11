@@ -66,14 +66,16 @@ class StadisticsController extends Controller
                 return response()->json(
                     [
                     "success" => true,
-                    "message" => 'Not games with this requirements found.',
-                    ],404
+                    "message" => 'Not goals with this requirements found.',
+                    ],200
                 );
             }
 
             for($i = 0 ; $i < count($game) ; $i++){
 
-                $goals[] = Goal::where('game_id', $game[$i]->id)->get();
+                $goals[] = Goal::where('game_id', $game[$i]->id)
+                                ->where('team_id', $teamId)
+                                ->get();
 
             };
 
@@ -81,8 +83,8 @@ class StadisticsController extends Controller
                 return response()->json(
                     [
                     "success" => true,
-                    "message" => 'Not games with this requirements found.',
-                    ],404
+                    "message" => 'Not goals with this requirements found.',
+                    ],200
                 );
             }
             
@@ -91,7 +93,7 @@ class StadisticsController extends Controller
                 [
                 "success" => true,
                 "message" => 'Get my goals by team id',
-                "data" => $goals
+                "data" => $game
                 ],200
             );
 
