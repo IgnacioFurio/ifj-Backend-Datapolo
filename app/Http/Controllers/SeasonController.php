@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Season;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -19,7 +20,10 @@ class SeasonController extends Controller
             $accessToken = $request->bearerToken();
             $token = PersonalAccessToken::findToken($accessToken);
 
-            $seasons = Season::all();
+            // $seasons = Season::all();
+            $seasons = DB::table('seasons')
+                            ->orderBy('season', 'desc')
+                            ->get();
 
             return [
                 "success" => true,

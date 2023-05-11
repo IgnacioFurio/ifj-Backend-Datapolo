@@ -59,7 +59,7 @@ class GameController extends Controller
             
             for ($i = 0 ; $i < count($teams)  ; $i++) { 
                 
-                $array[] = Game::where('my_team_id', $teams[$i]->id)->orderBy('season_id', 'asc')->get();
+                $array[] = Game::where('my_team_id', $teams[$i]->id)->orderBy('season_id', 'desc')->get();
 
                 if( count($array[$i]) === 0 ){
 

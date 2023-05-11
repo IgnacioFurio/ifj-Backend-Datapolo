@@ -5,6 +5,7 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\GoalController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\SeasonController;
+use App\Http\Controllers\StadisticsController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -98,5 +99,13 @@ Route::group([
     Route::post('/my-goals', [GoalController::class, "createNewGoal"]);        
     Route::put('/my-goals', [GoalController::class, "modifyGoal"]);        
     Route::delete('/my-goals', [GoalController::class, "deleteGoal"]);    
+    }
+);
+
+//STADISTICS
+Route::group([
+    'middleware' => ['auth:sanctum']
+], function () {
+    Route::post('/my-goals-stadistics', [StadisticsController::class, "getAllMyGoalStadistics"]);
     }
 );
