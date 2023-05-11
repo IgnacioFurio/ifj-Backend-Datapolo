@@ -76,6 +76,15 @@ class StadisticsController extends Controller
                 $goals[] = Goal::where('game_id', $game[$i]->id)->get();
 
             };
+
+            if(count($goals[0]) === 0){
+                return response()->json(
+                    [
+                    "success" => true,
+                    "message" => 'Not games with this requirements found.',
+                    ],404
+                );
+            }
             
 
             return response()->json(
