@@ -92,8 +92,8 @@ class StadisticsController extends Controller
             return response()->json(
                 [
                 "success" => true,
-                "message" => 'Get my goals by team id',
-                "data" => $game
+                "message" => 'Here are your game stadistics.',
+                "data" => $goals
                 ],200
             );
 
