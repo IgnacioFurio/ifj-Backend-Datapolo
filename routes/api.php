@@ -31,6 +31,14 @@ Route::post('/newuser',[AuthController::class, "newUser"]);
 Route::post('/login',[AuthController::class, "login"]);
 Route::post('/logout',[AuthController::class, "logout"])->middleware('auth:sanctum');
 
+//ADMIN
+Route::group([
+    'middleware' => ['IsAdmin']
+], function () {
+    Route::get('/admin/users', [TeamController::class, "getAllUsers"]);      
+} 
+);
+
 //USER
 Route::post('/user', [UserController::class, "getUserData"]);
 
