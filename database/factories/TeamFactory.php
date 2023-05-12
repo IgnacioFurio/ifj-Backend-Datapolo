@@ -18,8 +18,7 @@ class TeamFactory extends Factory
     {
         return [
             'user_id' => rand(1,10),
-            'team_name' => fake()->name(),
-            
+            'team_name' => fake()->name(),            
         ];
     }
 }
