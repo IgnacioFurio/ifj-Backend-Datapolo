@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\GoalController;
@@ -35,7 +36,7 @@ Route::post('/logout',[AuthController::class, "logout"])->middleware('auth:sanct
 Route::group([
     'middleware' => ['IsAdmin']
 ], function () {
-    Route::get('/admin/users', [TeamController::class, "getAllUsers"]);      
+    Route::get('/admin/users', [AdminController::class, "getAllUsers"]);      
 } 
 );
 
