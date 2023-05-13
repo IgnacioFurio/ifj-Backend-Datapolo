@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,8 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $user = User::find(Auth::id());
+
         if (Auth::user()->role_id === 1 || Auth::user()->role_id === 2) {
             return $next($request);
         }  
@@ -24,7 +27,7 @@ class IsAdmin
             [
                 "success" => false,
                 "message" => "You shall not pass!!",
-                "data" => Auth::user()
+                "data" => $user
             ],
             401
         );

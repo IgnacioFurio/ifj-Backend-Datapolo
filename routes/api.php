@@ -34,10 +34,10 @@ Route::post('/logout',[AuthController::class, "logout"])->middleware('auth:sanct
 
 //ADMIN
 Route::group([
-    'middleware' => ['IsAdmin']
-], function () {
-    Route::get('/admin/users', [AdminController::class, "getAllUsers"]);      
-} 
+    'middleware' => ['auth:sanctum', 'IsAdmin']
+    ], function () {
+        Route::get('/admin/users', [AdminController::class, "getAllUsers"]);      
+    } 
 );
 
 //USER
