@@ -36,7 +36,9 @@ Route::post('/logout',[AuthController::class, "logout"])->middleware('auth:sanct
 Route::group([
     'middleware' => ['auth:sanctum', 'IsAdmin']
     ], function () {
-        Route::get('/admin/users', [AdminController::class, "getAllUsers"]);      
+        Route::get('/admin/users', [AdminController::class, "getAllUsers"]);  
+        Route::put('/admin/users', [AdminController::class, "modifyUser"]); 
+        Route::delete('/admin/users', [AdminController::class, "deleteUser"]);        
     } 
 );
 
