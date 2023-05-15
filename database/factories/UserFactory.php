@@ -22,7 +22,7 @@ class UserFactory extends Factory
             'role_id' => rand(1,3),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '1234567W', // password
+            'password' => '$2y$10$oSXktw4d97Rs3ZZZ6.ZfjO91Of5Eq9eapxPBYb3MPnp.8vzV5kzmC', // password 1234567W
             'remember_token' => Str::random(10),
         ];
     }
