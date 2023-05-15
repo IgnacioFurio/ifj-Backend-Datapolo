@@ -58,6 +58,15 @@ So I though, maybe there's a way to make this easy, and that is how i came with 
 <a href="https://laravel.com/">
     <img src= "https://img.shields.io/badge/laravel-F13C2F?style=for-the-badge&logo=laravel&logoColor=white"/>
 </a>
+<a href="https://www.docker.com/">
+    <img src= "https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white"/>
+</a>
+<a href="https://www.mysql.com/">
+    <img src= "https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white"/>
+</a>
+<a href="https://railway.app/">
+    <img src= "https://img.shields.io/badge/Railway-131415?style=for-the-badge&logo=railway&logoColor=white"/>
+</a>
 
  </div>
 
