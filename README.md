@@ -136,7 +136,7 @@ So I though, maybe there's a way to make this easy, and that is how i came with 
 
 ---
 
-[ ] Defensive sstadistics  
+[ ] Defensive stadistics  
 [ ] Trophies won  
 [ ] Search filters at players and teams  
 [ ] ...
