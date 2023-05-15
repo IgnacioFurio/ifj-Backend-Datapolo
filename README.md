@@ -32,7 +32,7 @@
 This project belongs to the last one made for GeekHubs Academy and the goal is to make a FullStack aplication that have at least certain types of relations between the tables of the data base (1:N and N,N). 
 
 ## About the project
-Decidí crear una aplicación web para ayudar a los amantes del gimnasio, que les permitiría crear y realizar un seguimiento de nuevas rutinas para sus ejercicios diarios. He visto muchas apps de este estilo pero ninguna que nos permita cambiar tan libremente las rutinas adaptandolas a nuestras necesidades.    
+
 
 As a waterpolo coach I had to analyze every match my teams play carfully, so i could find ways to improve the performance for the future games. Doing that by pen and paper it's really tedious, because it's an easy way to lose information for good, and moreover, every time the data changes, the calculations must be re-done.
 
