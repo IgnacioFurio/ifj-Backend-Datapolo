@@ -2,6 +2,7 @@
     "private": true,
     "scripts": {
         "dev": "vite",
+        "start": "node src/app.js",
         "build": "vite build"
     },
     "devDependencies": {
